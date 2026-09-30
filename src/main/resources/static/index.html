@@ -1,58 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Addition App</title>
 
     <style>
 
-        body{
+        *{
             margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
             height:100vh;
             display:flex;
             justify-content:center;
             align-items:center;
-            background:linear-gradient(to right,#4facfe,#00f2fe);
-            font-family:Arial,sans-serif;
+            background:linear-gradient(to right, #4facfe, #00f2fe);
         }
 
         .container{
-            background:white;
-            padding:30px;
-            border-radius:15px;
-            box-shadow:0px 0px 15px gray;
+            width:400px;
+            background:#e3f2fd;
+            padding:35px;
+            border-radius:20px;
             text-align:center;
-            width:300px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.3);
         }
 
         h2{
-            color:#333;
+            color:#1f2937;
+            margin-bottom:25px;
         }
 
         input{
-            width:90%;
-            padding:10px;
+            width:100%;
+            padding:12px;
             margin:10px 0;
-            border-radius:8px;
-            border:1px solid gray;
-        }
-
-        button{
-            background:green;
-            color:white;
-            border:none;
-            padding:10px 20px;
-            border-radius:8px;
-            cursor:pointer;
+            border:1px solid #b0bec5;
+            border-radius:10px;
             font-size:16px;
         }
 
+        input:focus{
+            outline:none;
+            border-color:#2196f3;
+        }
+
+        button{
+            width:120px;
+            padding:12px;
+            margin-top:15px;
+            border:none;
+            border-radius:10px;
+            background:#1976d2;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+        }
+
         button:hover{
-            background:darkgreen;
+            background:#1565c0;
         }
 
         #result{
-            color:blue;
-            margin-top:15px;
+            margin-top:20px;
+            color:#0d47a1;
+            font-size:24px;
+            font-weight:bold;
         }
 
     </style>
@@ -64,9 +82,15 @@
 
     <h2>Add Two Numbers</h2>
 
-    <input type="number" id="num1" placeholder="Enter First Number">
+    <input
+            type="number"
+            id="num1"
+            placeholder="Enter First Number">
 
-    <input type="number" id="num2" placeholder="Enter Second Number">
+    <input
+            type="number"
+            id="num2"
+            placeholder="Enter Second Number">
 
     <button onclick="addNumbers()">Add</button>
 
@@ -76,18 +100,25 @@
 
 <script>
 
-    function addNumbers(){
+    function addNumbers() {
 
         let a = document.getElementById("num1").value;
         let b = document.getElementById("num2").value;
 
-        fetch(`/add?a=${a}&b=${b}`)
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById("result").innerHTML =
-                    "Result = " + data;
-        });
+        if(a === "" || b === "") {
+            alert("Please enter both numbers");
+            return;
+        }
 
+        fetch(`/add?a=${a}&b=${b}`)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("result").innerHTML =
+                    "Result = " + data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
 </script>
